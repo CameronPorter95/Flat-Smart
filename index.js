@@ -8,21 +8,9 @@ app.set('view engine', 'pug');
 //Enable static file serving
 app.use(express.static(path.join(__dirname, 'public')));
 
-var suburbs = [];
-var getSuburb = function(){
-	fs.readFile("data/suburbs.json", 'utf8', function(err,data){
-		if(err) throw err;
-		suburbs = JSON.parse(data);
-	})
-};
+var suburbs = JSON.parse(fs.readFileSync("data/suburbs.json", 'utf8'));
 
-var regions = [];
-var getRegion = function(){
-	fs.readFile("data/regions.json", 'utf8', function(err,data){
-		if(err) throw err;
-		suburbs = JSON.parse(data);
-	})
-};
+var regions = JSON.parse(fs.readFileSync("data/regions.json", 'utf8'));
 
 //Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
@@ -39,8 +27,6 @@ else {
 };
 
 app.get('/', function (req, res) {
-	getSuburb();
-	getRegion();
   //res.render(<pug file>, parameters: {title: <page title>, resultsName: <Title for results table>});
   res.render('search', {title: 'Search',
 		regionsArray: regions,
