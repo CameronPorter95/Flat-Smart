@@ -4,9 +4,4 @@ html
 		link(rel='stylesheet', href='/stylesheets/style.css')
 		title= title
 	body
-		.container
-			h1= resultsName
-			each suburb in suburbsArray
-				.row
-					.col-6 #{suburb.id}
-					.col-6 #{suburb.name}
+		block content
