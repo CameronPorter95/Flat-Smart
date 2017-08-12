@@ -18,7 +18,6 @@ var options = {
   };
 
 var getListings = function() {
-    console.log("requesting listings");
     request(options, (error, response, body) => {
         if (!error && response.statusCode == 200) {
             var data = JSON.parse(body);
@@ -30,7 +29,6 @@ var getListings = function() {
 
               });
             });
-            //console.log(data);
         } else if (error) {
             console.error(error);
         } else {
@@ -46,5 +44,4 @@ app.get('/', function (req, res) {
 });
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
 });
