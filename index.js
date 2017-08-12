@@ -15,6 +15,9 @@ var getSuburb = function(){
 		suburbs = JSON.parse(data);
 	})
 };
+
+var regions = [];
+
 //Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 	//Do basic HTTP server setup, Heroku will handle HTTPS
@@ -32,8 +35,9 @@ else {
 app.get('/', function (req, res) {
 	getSuburb();
   //res.render(<pug file>, parameters: {title: <page title>, resultsName: <Title for results table>});
-  res.render('index', {title: 'Search',
+  res.render('search', {title: 'Search',
   	resultsName: 'Test Table:',
+		regionsArray: regions,
   	suburbsArray: suburbs
   });
 });
