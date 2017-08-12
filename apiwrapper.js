@@ -3,6 +3,7 @@ var app = express();
 var request = require('request');
 
 var Suburbs = [];
+var regions = [];
 
 const trademeKey = {
   consumerKey: "E434B9CF4549C3F016FC9FA13E024A04",
@@ -21,7 +22,7 @@ var options = {
 
 
 
-var getListings = function() {
+var getSuburbs = function() {
     request(options, (error, response, body) => {
         if (!error && response.statusCode == 200) {
             var data = JSON.parse(body);
@@ -30,7 +31,8 @@ var getListings = function() {
               obj.Districts.forEach(obj2 => {
                 obj2.Suburbs.forEach(obj3 =>{
                     var suburb = {
-                      id: obj3.SuburbId,
+                      region_id: obj2.DistrictId,
+                      suburb_id: obj3.SuburbId,
                       name: obj3.Name
                     }
                     Suburbs.push(suburb);
@@ -45,7 +47,7 @@ var getListings = function() {
 
                   console.log("The file was saved!");
               });
-
+              console.log(Suburbs)
         } else if (error) {
             console.error(error);
         } else {
@@ -55,10 +57,42 @@ var getListings = function() {
     });
 };
 
+var getRegions = function() {
+    request(options, (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+            var data = JSON.parse(body);
+            console.log("{");
+            data.forEach(obj => {
+              obj.Districts.forEach(obj2 => {
+                var region = {
+                  region_id: obj2.DistrictId,
+                  name: obj2.Name
+                }
+                regions.push(region)
+              });
+            });
+            var fs = require('fs');
+              fs.writeFile("regions.json", JSON.stringify(regions), function(err) {
+                  if(err) {
+                      return console.log(err);
+                  }
+                  console.log("The file was saved!");
+              });
+              console.log(regions)
+        } else if (error) {
+            console.error(error);
+        } else {
+            console.log(body);
+            return null;
+        }
+    });
+};
 
 app.get('/', function (req, res) {
-   getListings();
+   getSuburbs();
+   getRegions();
   res.send(Suburbs);
+  res.send(regions);
 });
 
 app.listen(3000, function () {
