@@ -39,6 +39,7 @@ app.get('/', function (req, res) {
   res.render('search', {title: 'Search',
 		regionsArray: regions,
   	suburbsArray: suburbs
+		crimerateArray: crimerates
   });
 });
 
