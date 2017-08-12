@@ -17,6 +17,12 @@ var getSuburb = function(){
 };
 
 var regions = [];
+var getSuburb = function(){
+	fs.readFile("regions.json", 'utf8', function(err,data){
+		if(err) throw err;
+		suburbs = JSON.parse(data);
+	})
+};
 
 //Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
