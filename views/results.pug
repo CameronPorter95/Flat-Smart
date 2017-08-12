@@ -1,5 +1,13 @@
 extends layout
 
-	block content
-		.container
-			h1.display-tile= suburb_id
+block content
+	.container
+		h1.title-block #{suburb_id}, 12
+		.row
+			.data-block
+				h2 Empty wallet
+				h3 Average rental price for #{suburb_id}
+		.row
+			.data-block
+				h2 Data 2
+				h3 Description

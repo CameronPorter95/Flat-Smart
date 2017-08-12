@@ -39,17 +39,18 @@ app.get('/', function (req, res) {
   res.render('search', {title: 'Search',
 		regionsArray: regions,
   	suburbsArray: suburbs
-		crimeratesArray: crimerates
   });
 });
 
 app.get('/results/:suburb_id', function (req, res) {
 	if (!req.params.suburb_id) return res.json("suburb_id not supplied");
 	var id = req.params.suburb_id;
-  //res.render(<pug file>, parameters: {title: <page title>, resultsName: <Title for results table>});
-  res.render('results', {title: 'Results',
-		resultsName: 'Test Table:',
-		suburb_id: id,
-		suburbsArray: suburbs
+
+	//get the details of the relevant suburb
+	searchedSuburbArray = [];
+
+	//res.render(<pug file>, parameters: {});
+	res.render('results', {title: 'Results for '+ suburb_id,
+		suburbArray: searchedSuburbArray
   });
 });

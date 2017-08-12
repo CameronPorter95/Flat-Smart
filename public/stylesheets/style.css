@@ -3,17 +3,33 @@ body {
   padding-bottom: 2rem;
 }
 
-h3 {
+h1 {
   margin: auto;
 }
 
-.display-tile {
+h2 {
+    margin: auto;
+    font-size: 300%;
+}
+
+.title-block {
   margin: auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 400%;
   text-align: center;
-  width: 50%;
+  width: 60%;
+  border-bottom: .5rem solid black;
+}
+
+.data-block {
+    margin: auto;
+    width: 50%;
+    text-align: center;
 }
 
 .row {
+    margin-top: 1rem;
   margin-bottom: 1rem;
 }
 .row .row {
