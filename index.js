@@ -24,5 +24,8 @@ else {
 
 app.get('/', function (req, res) {
   //res.render(<pug file>, parameters: {title: <page title>, resultsName: <Title for results table>});
-  res.render('index', {title: 'Search', resultsName: 'Test Table:'});
+  res.render('index', {title: 'Search',
+  	resultsName: 'Test Table:',
+  	suburbsArray: 
+  });
 });
