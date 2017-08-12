@@ -5,9 +5,8 @@ html
 		title= title
 	body
 		.container
-			h1= 
 			h1= resultsName
-			for suburb in suburbsArray
+			each suburb in suburbsArray
 				.row
-					.col-6 suburb.getDataValue('id')
-					.col-6 suburb.getDataValue('name')
+					.col-6 #{suburb.id}
+					.col-6 #{suburb.name}
