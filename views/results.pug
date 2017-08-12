@@ -1,0 +1,9 @@
+extends layout
+
+	block content
+		.container
+			h1= resultsName
+			each suburb in suburbsArray
+				.row
+					.col-2 #{suburb.id}
+					.col-10 #{suburb.name}
