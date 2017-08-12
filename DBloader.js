@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 //connect to MongoDB
-mongoose.connect('mongodb://heroku_khwjm57z:5e7v1vdpgpluug4e3vd4cgm242@ds143131.mlab.com:43131/heroku_khwjm57z');
+mongoose.connect('mongodb://heroku_1g6bm98p:<dbpassword>@ds151242.mlab.com:51242/heroku_1g6bm98p');
 
 //-------------
 //API Routes

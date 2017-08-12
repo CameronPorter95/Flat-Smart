@@ -4,7 +4,9 @@
   "description": "Node app for comparing rental properties",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node index.js"
+}
   },
   "repository": {
     "type": "git",
