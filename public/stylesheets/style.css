@@ -4,7 +4,13 @@ body {
 }
 
 h3 {
-  margin-top: 2rem;
+  margin: auto;
+}
+
+.display-tile {
+  margin: auto;
+  text-align: center;
+  width: 50%;
 }
 
 .row {

@@ -39,7 +39,7 @@ app.get('/results/:suburb_id', function (req, res) {
 	var id = req.params.suburb_id;
   //res.render(<pug file>, parameters: {title: <page title>, resultsName: <Title for results table>});
   res.render('results', {title: 'Results',
-  	resultsName: 'Test Table:',
-		suburb_id: id,
+		resultsName: 'Test Table:',
+		suburb_id: id
   });
 });
