@@ -10,13 +10,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var suburbs = [];
 var getSuburb = function(){
-	fs.readFile("suburbs.json", 'utf8', function(err,data){
+	fs.readFile("data/suburbs.json", 'utf8', function(err,data){
 		if(err) throw err;
 		suburbs = JSON.parse(data);
 	})
 };
 
 var regions = [];
+var getRegion = function(){
+	fs.readFile("data/regions.json", 'utf8', function(err,data){
+		if(err) throw err;
+		suburbs = JSON.parse(data);
+	})
+};
 
 //Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
@@ -28,12 +34,13 @@ if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 });}
 else {
  app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+  console.log('Listening');
  });
 };
 
 app.get('/', function (req, res) {
 	getSuburb();
+	getRegion();
   //res.render(<pug file>, parameters: {title: <page title>, resultsName: <Title for results table>});
   res.render('search', {title: 'Search',
 		regionsArray: regions,
