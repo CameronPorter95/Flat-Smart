@@ -23,6 +23,6 @@ else {
 };
 
 app.get('/', function (req, res) {
-  //res.send('Hello World!');
-  res.render('index', {title: 'Hey', message: 'Hello there!'});
+  //res.render(<pug file>, parameters: {title: <page title>, resultsName: <Title for results table>});
+  res.render('index', {title: 'Search', resultsName: 'Test Table:'});
 });
