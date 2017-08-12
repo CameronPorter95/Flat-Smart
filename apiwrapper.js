@@ -2,12 +2,14 @@ var express = require('express');
 var app = express();
 var request = require('request');
 
+var Suburbs = [];
+
 const trademeKey = {
   consumerKey: "E434B9CF4549C3F016FC9FA13E024A04",
   consumerSecret: "82822352A8CF174E123A12F00466116C"
 };
 
-const trademeApiUrl = 'https://api.tmsandbox.co.nz/v1/Search/Property/Rental.json';
+const trademeApiUrl = 'https://api.tmsandbox.co.nz/v1/Localities.json';
 
 var options = {
     url: trademeApiUrl,
@@ -17,11 +19,33 @@ var options = {
     }
   };
 
+
+
 var getListings = function() {
     request(options, (error, response, body) => {
         if (!error && response.statusCode == 200) {
             var data = JSON.parse(body);
-            console.log(data);
+            console.log("{");
+            data.forEach(obj => {
+              obj.Districts.forEach(obj2 => {
+                obj2.Suburbs.forEach(obj3 =>{
+                    var suburb = {
+                      id: obj3.SuburbId,
+                      name: obj3.Name
+                    }
+                    Suburbs.push(suburb);
+                });
+              });
+            });
+            var fs = require('fs');
+              fs.writeFile("suburbs.json", JSON.stringify(Suburbs), function(err) {
+                  if(err) {
+                      return console.log(err);
+                  }
+
+                  console.log("The file was saved!");
+              });
+
         } else if (error) {
             console.error(error);
         } else {
@@ -31,9 +55,10 @@ var getListings = function() {
     });
 };
 
+
 app.get('/', function (req, res) {
    getListings();
-  res.send('Hello World');
+  res.send(Suburbs);
 });
 
 app.listen(3000, function () {

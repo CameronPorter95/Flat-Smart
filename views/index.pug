@@ -1,10 +1,13 @@
 html
 	head
 		link(rel='stylesheet', href='https://getbootstrap.com/dist/css/bootstrap.min.css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
 		title= title
 	body
-		h1= message
-		.row
-			.col-4 Alpha
-			.col-4 Beta
-			.col-4 Gamma
+		.container
+			h1= 
+			h1= resultsName
+			for suburb in suburbsArray
+				.row
+					.col-6 suburb.getDataValue('id')
+					.col-6 suburb.getDataValue('name')
