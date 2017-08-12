@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/CameronPorter95/HotShots/issues"
   },
-  "homepage": "https://github.com/CameronPorter95/HotShots#readme"
+  "homepage": "https://github.com/CameronPorter95/HotShots#readme",
+  "dependencies": {
+    "express": "^4.15.4"
+  }
 }
