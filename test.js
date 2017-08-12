@@ -7,7 +7,7 @@ const trademeKey = {
   consumerSecret: "82822352A8CF174E123A12F00466116C"
 };
 
-const trademeApiUrl = 'https://api.tmsandbox.co.nz/v1/Search/General.json';
+const trademeApiUrl = 'https://api.tmsandbox.co.nz/v1/Localities.json';
 
 var options = {
     url: trademeApiUrl,
@@ -22,7 +22,7 @@ var getListings = function() {
     request(options, (error, response, body) => {
         if (!error && response.statusCode == 200) {
             var data = JSON.parse(body);
-            data = data.List;
+            
             console.log(data);
         } else if (error) {
             console.error(error);
