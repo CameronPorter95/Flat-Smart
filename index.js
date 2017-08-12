@@ -1,8 +1,6 @@
 var express = require('express');
 var app = express();
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
+
 //Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 	//Do basic HTTP server setup, Heroku will handle HTTPS
@@ -16,3 +14,7 @@ else {
   console.log('Example app listening on port 3000!');
  });
 };
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
