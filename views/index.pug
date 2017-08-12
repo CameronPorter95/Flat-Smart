@@ -8,6 +8,6 @@ html
 			h1= 
 			h1= resultsName
 			for suburb in suburbsArray
-				.col-12 Alpha
-				.col-12 Beta
-				.col-12 Gamma
+				.row
+					.col-6 suburb.getDataValue('id')
+					.col-6 suburb.getDataValue('name')
