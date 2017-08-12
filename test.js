@@ -22,8 +22,15 @@ var getListings = function() {
     request(options, (error, response, body) => {
         if (!error && response.statusCode == 200) {
             var data = JSON.parse(body);
-            
-            console.log(data);
+            data.forEach(obj => {
+              obj.Districts.forEach(obj2 => {
+                obj2.Suburbs.forEach(obj3 =>{
+                    console.log(obj3);
+                });
+
+              });
+            });
+            //console.log(data);
         } else if (error) {
             console.error(error);
         } else {
