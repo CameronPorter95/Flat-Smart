@@ -19,6 +19,8 @@ var options = {
     }
   };
 
+
+
 var getListings = function() {
     request(options, (error, response, body) => {
         if (!error && response.statusCode == 200) {
@@ -27,7 +29,6 @@ var getListings = function() {
             data.forEach(obj => {
               obj.Districts.forEach(obj2 => {
                 obj2.Suburbs.forEach(obj3 =>{
-                    //console.log(obj3);
                     var suburb = {
                       id: obj3.SuburbId,
                       name: obj3.Name
@@ -36,7 +37,15 @@ var getListings = function() {
                 });
               });
             });
-            console.log(Suburbs);
+            var fs = require('fs');
+              fs.writeFile("suburbs.json", JSON.stringify(Suburbs), function(err) {
+                  if(err) {
+                      return console.log(err);
+                  }
+
+                  console.log("The file was saved!");
+              });
+
         } else if (error) {
             console.error(error);
         } else {
@@ -45,6 +54,7 @@ var getListings = function() {
         }
     });
 };
+
 
 app.get('/', function (req, res) {
    getListings();
