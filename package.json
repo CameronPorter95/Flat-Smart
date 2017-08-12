@@ -1,0 +1,19 @@
+{
+  "name": "hotshots",
+  "version": "1.0.0",
+  "description": "Node app for comparing rental properties",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CameronPorter95/HotShots.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CameronPorter95/HotShots/issues"
+  },
+  "homepage": "https://github.com/CameronPorter95/HotShots#readme"
+}
