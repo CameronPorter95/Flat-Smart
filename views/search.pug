@@ -1,16 +1,14 @@
 extends layout
 
 block content
-		.container
-			h1 Search suburbs
-			select#bar
-			h1= resultsName
-			each suburb in suburbsArray
-				.row
-					.col-1 #{suburb.suburb_id}
-					.col-1 #{suburb.region_id}
-					.col-10 #{suburb.name}
-			each region in regionsArray
-				.row
-					.col-1 #{region.region_id}
-					.col-11 #{region.name}
+	.container
+			h1 Search
+				select#region
+					option(value='0') -- Select Region --
+					each region in regionsArray
+						option(value='#{region.region_id}') #{region.name}
+
+				select#suburb
+					option(value='0') -- Select suburb --
+					each suburb in suburbsArray
+						option(value='#{suburb.suburb_id}') #{suburb.name}

@@ -36,8 +36,17 @@ app.get('/', function (req, res) {
 	getSuburb();
   //res.render(<pug file>, parameters: {title: <page title>, resultsName: <Title for results table>});
   res.render('search', {title: 'Search',
-  	resultsName: 'Test Table:',
 		regionsArray: regions,
   	suburbsArray: suburbs
+  });
+});
+
+app.get('/results/:suburb_id', function (req, res) {
+	if (!req.params.suburb_id) return res.json("suburb_id not supplied");
+	var id = req.params.suburb_id;
+  //res.render(<pug file>, parameters: {title: <page title>, resultsName: <Title for results table>});
+  res.render('results', {title: 'Results',
+  	resultsName: 'Test Table:',
+		suburb_id: id,
   });
 });
