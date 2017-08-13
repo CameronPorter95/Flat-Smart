@@ -1,16 +1,25 @@
 extends layout
 
 block content
-	.container
-		h1.title-block #{suburb.name}
+	.overlayer
+	.container.fix-body-width.background-color
+		h1.suburb-title #{suburb.name}, #{suburb.region_name}
+		.row
 		.row
 			.data-block
+				img(href="/hexagon-outline.png", width="80%", height="80%")
 				h2 $#{suburb.average}
 				h3 Average rental price per week for #{suburb.name}
 		.row
-			.data-block
-				h2 #{suburb.crimerate}
-				h3 Crime rate for #{suburb.name}
 		.row
+		.row.sub-title-block
+			.col-6
+				h3 Crime rate per capita for #{suburb.region_name}
+			.col-6
+				h3 Distance from CBD
+		.row
+			.col-6.data-block
+				div(padding-top="1rem")
+					h2 #{suburb.crimerate}
+			.col-6.data-block
 				h2 #{suburb.distance}
-				h3 distance from CBD
