@@ -21,7 +21,7 @@ var aucklandCrime = 31718/1415550;
 crimerates['Wellington'] = [];
 crimerates['Auckland City'] = [];
 crimerates.Wellington.push(wellingtonCrime);
-crimerates.Auckland.push(aucklandCrime);
+crimerates['Auckland City'].push(aucklandCrime);
 
 //Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
