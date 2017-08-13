@@ -43,20 +43,20 @@ var findSuburb = function(suburb_id){
 		average: null,
 		crimerate: null
 	}
-	var suburbs = JSON.parse(suburbs);
-	var suburbAverages = JSON.parse(suburbAverages);
+	var suburbs = JSON.parse(fs.readFileSync("data/suburbs.json", 'utf8'));
+	var suburbAverages = JSON.parse(fs.readFileSync("data/averages.json", 'utf8'));
 	suburbs.forEach(obj => {
-		if(obj.suburb_id = suburb_id){
+		if(obj.suburb_id == suburb_id || obj.name == suburb_id){
 			suburb.suburb_id = obj.suburb_id;
 			suburb.name = obj.name;
 		}
 	});
 	suburbAverages.forEach(obj => {
-		if(obj.suburb_id = suburb_id){
-			suburb.average = obj.average;
+		if(obj.suburb_id == suburb_id || obj.suburb_id == suburb.suburb_id){
+			suburb.average = Math.round(obj.average * 100) / 100;
 		}
 	});
-	suburb.crimerates = crimerates.wellington[1]
+	suburb.crimerate = crimerates.wellington[0]
 	return suburb;
 };
 
@@ -65,7 +65,6 @@ app.get('/', function (req, res) {
   res.render('search', {title: 'Search',
 		regionsArray: regions,
   	suburbsArray: suburbs
-		crimerateArray: crimerates
   });
 });
 
@@ -78,7 +77,7 @@ app.get('/results/:suburb_id', function (req, res) {
 	//searchedSuburbArray = [];
 
 	//res.render(<pug file>, parameters: {});
-	res.render('results', {title: 'Results for '+ suburb_id,
+	res.render('results', {title: 'Results for '+ id,
 		suburb: suburbToPass
   });
 });
