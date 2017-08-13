@@ -99,7 +99,7 @@ app.get('/results/:suburb_id', function (req, res) {
 	if (!req.params.suburb_id) return res.json("suburb_id not supplied");
 	var id = req.params.suburb_id;
 
-	findSuburb(id, suburb => {res.render('results', {title: 'Results for '+ id,
+	findSuburb(id, suburb => {res.render('results', {title: 'Results for '+ suburb.name,
 		suburb: suburb
   });});
 	//get the details of the relevant suburb
