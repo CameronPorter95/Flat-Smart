@@ -16,8 +16,8 @@ var suburbAverages = JSON.parse(fs.readFileSync("data/averages.json", 'utf8'));
 var regions = JSON.parse(fs.readFileSync("data/regions.json", 'utf8'));
 
 var crimerates = {};
-var wellingtonCrime = 38613/471315;
-var aucklandCrime = 31718/1415550;
+var wellingtonCrime = (38613/471315).toFixed(3);
+var aucklandCrime = (31718/1415550).toFixed(3);
 crimerates['Wellington'] = [];
 crimerates['Auckland City'] = [];
 crimerates.Wellington.push(wellingtonCrime);
@@ -91,7 +91,7 @@ var findSuburb = function(suburb_id, cb){
 	});
 	console.log(suburb.region_name);
 	suburb.crimerate = crimerates[suburb.region_name];
-	var distance = getSuburbs(suburb.name, "wellington", (b) => {suburb.distance = b; cb(suburb);});
+	var distance = getSuburbs(suburb.name, suburb.region_name, (b) => {suburb.distance = b; cb(suburb);});
 };
 
 
