@@ -6,9 +6,34 @@ block content
 				select#region
 					option(value='0') -- Select Region --
 					each region in regionsArray
-						option(value='#{region.region_id}') #{region.name}
+						option(value=region.region_id) #{region.name}
 
 				select#suburb
 					option(value='0') -- Select suburb --
 					each suburb in suburbsArray
-						option(value='#{suburb.suburb_id}') #{suburb.name}
+						option(value=suburb.suburb_id  region=suburb.region_id) #{suburb.name}
+				button#search Search Now
+				script.
+					var button = document.getElementById("search");
+					button.onclick= function () {
+					  var e = document.getElementById("suburb");
+					  var value = e.options[e.selectedIndex].value;
+						window.location.href = '/results/'+value;
+					};
+					var suburb = document.getElementById("suburb");
+					var region = document.getElementById("region");
+					region.onchange =function () {
+						suburb.innerHTML = '';
+					  var region_value = region.options[region.selectedIndex].value;
+						var suburbs_array = !{JSON.stringify(suburbsArray).replace(/<\//g, '<\\/')}
+						for (i = 0; i < suburbs_array.length; i++) {
+						  //console.log(suburb_options[i].getAttribute("region")+' '+region_value);
+							if (suburbs_array[i].region_id == region_value) {
+								console.log(suburbs_array[i].region_id+' '+region_value);
+								var opt = document.createElement('option');
+								opt.value = suburbs_array[i].suburb_id;
+								opt.innerHTML = suburbs_array[i].name;
+								suburb.appendChild(opt);
+							}
+						}
+					}
