@@ -9,12 +9,12 @@ var suburb_averages = [];
 var average_out = [];
 
 const trademeKey = {
-  consumerKey: "E434B9CF4549C3F016FC9FA13E024A04",
-  consumerSecret: "82822352A8CF174E123A12F00466116C"
+  consumerKey: "E72416F6785B94AB9AD082A6413C7675",
+  consumerSecret: "C563D8DB3D568741832FF31070DF6A52"
 };
 
-const trademeApiUrl = 'https://api.tmsandbox.co.nz/v1/Localities.json';
-const trademeListingsUrl = 'https://api.tmsandbox.co.nz/v1/Search/Property/Rental.json?page=1';
+const trademeApiUrl = 'https://api.trademe.co.nz/v1/Localities.json';
+const trademeListingsUrl = 'https://api.trademe.co.nz/v1/Search/Property/Rental.json?page=1';
 
 var options = {
     url: trademeApiUrl,
@@ -100,9 +100,9 @@ var getRegions = function() {
 
 var getListings = function(){
   var promiseArray = [];
-  for(var page = 1; page <= 30; page++){
+  for(var page = 1; page <= 100; page++){
       promiseArray.push(new Promise((resolve,reject) => {
-        const trademeListingsUrl = 'https://api.tmsandbox.co.nz/v1/Search/Property/Rental.json?page=' + page;
+        const trademeListingsUrl = 'https://api.trademe.co.nz/v1/Search/Property/Rental.json?page=' + page;
         request(optionsListings, (error, response, body) => {
           if (!error && response.statusCode == 200) {
               var data = JSON.parse(body);
@@ -115,14 +115,14 @@ var getListings = function(){
                 if(!suburb_averages[listingData.suburb_id]){
                   suburb_averages[listingData.suburb_id] = {
                     suburb_id: listingData.suburb_id,
-                    priceSum: listingData.price,
+                    priceSum: parseInt(listingData.price),
                     count: 1
                   }
                 }
                 else{
                   suburb_averages[listingData.suburb_id] = {
                     suburb_id: suburb_averages[listingData.suburb_id].suburb_id,
-                    priceSum: suburb_averages[listingData.suburb_id].suburb_id + listingData.price,
+                    priceSum: parseInt(suburb_averages[listingData.suburb_id].priceSum) + parseInt(listingData.price),
                     count: suburb_averages[listingData.suburb_id].count + 1
                   }
                 }
@@ -148,6 +148,7 @@ var getListings = function(){
             average: obj.priceSum / obj.count
           }
           average_out.push(average);
+          console.log(suburb_averages);
           console.log(average);
         }
       });
