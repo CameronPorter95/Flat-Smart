@@ -10,6 +10,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var suburbs = JSON.parse(fs.readFileSync("data/suburbs.json", 'utf8'));
 
+var suburbAverages = JSON.parse(fs.readFileSync("data/averages.json", 'utf8'));
+
 var regions = JSON.parse(fs.readFileSync("data/regions.json", 'utf8'));
 
 var crimerates = {};
@@ -34,6 +36,30 @@ else {
  });
 };
 
+var findSuburb = function(suburb_id){
+	var suburb = {
+		suburb_id: null,
+		name: null,
+		average: null,
+		crimerate: null
+	}
+	var suburbs = JSON.parse(suburbs);
+	var suburbAverages = JSON.parse(suburbAverages);
+	suburbs.forEach(obj => {
+		if(obj.suburb_id = suburb_id){
+			suburb.suburb_id = obj.suburb_id;
+			suburb.name = obj.name;
+		}
+	});
+	suburbAverages.forEach(obj => {
+		if(obj.suburb_id = suburb_id){
+			suburb.average = obj.average;
+		}
+	});
+	suburb.crimerates = crimerates.wellington[1]
+	return suburb;
+};
+
 app.get('/', function (req, res) {
   //res.render(<pug file>, parameters: {title: <page title>, resultsName: <Title for results table>});
   res.render('search', {title: 'Search',
@@ -47,11 +73,12 @@ app.get('/results/:suburb_id', function (req, res) {
 	if (!req.params.suburb_id) return res.json("suburb_id not supplied");
 	var id = req.params.suburb_id;
 
+	var suburbToPass = findSuburb(id);
 	//get the details of the relevant suburb
-	searchedSuburbArray = [];
+	//searchedSuburbArray = [];
 
 	//res.render(<pug file>, parameters: {});
 	res.render('results', {title: 'Results for '+ suburb_id,
-		suburbArray: searchedSuburbArray
+		suburb: suburbToPass
   });
 });
