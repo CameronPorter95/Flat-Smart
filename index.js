@@ -17,11 +17,11 @@ var regions = JSON.parse(fs.readFileSync("data/regions.json", 'utf8'));
 
 var crimerates = {};
 var wellingtonCrime = 38613/471315;
-var otherCrime = 999999999/471315;
+var aucklandCrime = 31718/1415550;
 crimerates['wellington'] = [];
-crimerates['screw_this_place'] = [];
+crimerates['auckland'] = [];
 crimerates.wellington.push(wellingtonCrime);
-crimerates.screw_this_place.push(otherCrime);
+crimerates.auckland.push(aucklandCrime);
 
 //Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
@@ -82,7 +82,7 @@ var findSuburb = function(suburb_id, cb){
 			suburb.average = Math.round(obj.average * 100) / 100;
 		}
 	});
-	suburb.crimerate = crimerates.wellington[0];
+	suburb.crimerate = crimerates['wellington'];
 	var distance = getSuburbs(suburb.name, "wellington", (b) => {suburb.distance = b; cb(suburb);});
 };
 
