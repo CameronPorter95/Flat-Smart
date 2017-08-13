@@ -18,10 +18,13 @@ var regions = JSON.parse(fs.readFileSync("data/regions.json", 'utf8'));
 var crimerates = {};
 var wellingtonCrime = (38613/471315).toFixed(3);
 var aucklandCrime = (31718/1415550).toFixed(3);
+var canterburyCrime = (42796/539436).toFixed(3);
 crimerates['Wellington'] = [];
 crimerates['Auckland City'] = [];
+crimerates['Christchurch City'] = [];
 crimerates.Wellington.push(wellingtonCrime);
 crimerates['Auckland City'].push(aucklandCrime);
+crimerates['Christchurch City'].push(canterburyCrime);
 
 //Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
