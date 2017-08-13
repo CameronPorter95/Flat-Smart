@@ -2,6 +2,8 @@ body {
   padding-top: 2rem;
   padding-bottom: 2rem;
   position: relative;
+  font-family: 'Inconsolata', monospace;
+  color: white;
 }
 
 .background {
@@ -21,18 +23,26 @@ body {
   opacity: 0.5;
   z-index: -1;
 }
-
-.container {
-  z-index: 1;
+.background {
+    background-color:  #2BA1E8;
 }
 
 h1 {
   margin: auto;
+  font-family: 'Inconsolata', monospace;
 }
 
 h2 {
     margin: auto;
     font-size: 300%;
+}
+
+h3 {
+    text-align: center;
+}
+
+.fix-body-width {
+    width: 70%;
 }
 
 .icon {
@@ -42,15 +52,26 @@ h2 {
   text-align: center;
 }
 
+.suburb-title {
+  margin: auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 400%;
+  text-align: center;
+  width: 100%;
+  border-bottom: .5rem solid white;
+}
 .title-block {
   margin: auto;
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-size: 400%;
-  color: white;
   text-align: center;
   width: 60%;
   border-bottom: .5rem solid white;
+}
+.sub-title-block {
+    border-bottom: .1rem solid white;
 }
 
 .search-block {
@@ -82,13 +103,11 @@ button {
 }
 .row .row {
   margin-top: 1rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
 }
 [class*="col-"] {
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: rgba(86,61,124,.15);
-  border: 1px solid rgba(86,61,124,.2);
 }
 
 hr {
