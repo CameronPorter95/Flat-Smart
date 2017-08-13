@@ -95,11 +95,11 @@ var findSuburb = function(suburb_id, cb){
 	});
 	console.log(suburb.region_name);
 	suburb.crimerate = crimerates[suburb.region_name];
-	if(suburb.crimerate > 0.08){
-		suburb.crimerate_summary = "Bad";
+	if(suburb.crimerate > 0.1){
+		suburb.crimerate_summary = "High";
 	}
 	else if(suburb.crimerate < 0.04){
-		suburb.crimerate_summary = "Good";
+		suburb.crimerate_summary = "Low";
 	}
 	else{
 		suburb.crimerate_summary = "Fair";
