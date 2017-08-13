@@ -1,6 +1,11 @@
 body {
   padding-top: 2rem;
   padding-bottom: 2rem;
+  background-image: url("../background.jpg");
+  background-color: #2BA1E8;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:center;
 }
 
 h1 {
