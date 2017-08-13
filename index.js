@@ -16,12 +16,12 @@ var suburbAverages = JSON.parse(fs.readFileSync("data/averages.json", 'utf8'));
 var regions = JSON.parse(fs.readFileSync("data/regions.json", 'utf8'));
 
 var crimerates = {};
-var wellingtonCrime = 38613/471315;
-var otherCrime = 999999999/471315;
-crimerates['wellington'] = [];
-crimerates['screw_this_place'] = [];
-crimerates.wellington.push(wellingtonCrime);
-crimerates.screw_this_place.push(otherCrime);
+var wellingtonCrime = (38613/471315).toFixed(3);
+var aucklandCrime = (31718/1415550).toFixed(3);
+crimerates['Wellington'] = [];
+crimerates['Auckland City'] = [];
+crimerates.Wellington.push(wellingtonCrime);
+crimerates['Auckland City'].push(aucklandCrime);
 
 //Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
@@ -66,9 +66,11 @@ var findSuburb = function(suburb_id, cb){
 		average: null,
 		crimerate: null,
 		region: null,
+		region_name: "",
 		distance: ""
 	}
 	var suburbs = JSON.parse(fs.readFileSync("data/suburbs.json", 'utf8'));
+	var regions = JSON.parse(fs.readFileSync("data/regions.json", 'utf8'));
 	var suburbAverages = JSON.parse(fs.readFileSync("data/averages.json", 'utf8'));
 	suburbs.forEach(obj => {
 		if(obj.suburb_id == suburb_id || obj.name == suburb_id){
@@ -82,8 +84,14 @@ var findSuburb = function(suburb_id, cb){
 			suburb.average = Math.round(obj.average * 100) / 100;
 		}
 	});
-	suburb.crimerate = crimerates.wellington[0];
-	var distance = getSuburbs(suburb.name, "wellington", (b) => {suburb.distance = b; cb(suburb);});
+	regions.forEach(obj => {
+		if(obj.region_id == suburb.region){
+			suburb.region_name = obj.name;
+		}
+	});
+	console.log(suburb.region_name);
+	suburb.crimerate = crimerates[suburb.region_name];
+	var distance = getSuburbs(suburb.name, suburb.region_name, (b) => {suburb.distance = b; cb(suburb);});
 };
 
 
@@ -99,7 +107,7 @@ app.get('/results/:suburb_id', function (req, res) {
 	if (!req.params.suburb_id) return res.json("suburb_id not supplied");
 	var id = req.params.suburb_id;
 
-	findSuburb(id, suburb => {res.render('results', {title: 'Results for '+ id,
+	findSuburb(id, suburb => {res.render('results', {title: 'Results for '+ suburb.name,
 		suburb: suburb
   });});
 	//get the details of the relevant suburb
