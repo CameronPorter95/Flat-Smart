@@ -2,12 +2,12 @@ extends layout
 
 block content
 	.container
-		h1.title-block #{suburb_id}, 12
+		h1.title-block #{suburb.name}
 		.row
 			.data-block
-				h2 Empty wallet
-				h3 Average rental price for #{suburb_id}
+				h2 $#{suburb.average}
+				h3 Average rental price per week for #{suburb.name}
 		.row
 			.data-block
-				h2 Data 2
-				h3 Description
+				h2 #{suburb.crimerate}
+				h3 Crime rate for #{suburb.name}
