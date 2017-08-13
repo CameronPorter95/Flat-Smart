@@ -18,10 +18,10 @@ var regions = JSON.parse(fs.readFileSync("data/regions.json", 'utf8'));
 var crimerates = {};
 var wellingtonCrime = 38613/471315;
 var aucklandCrime = 31718/1415550;
-crimerates['wellington'] = [];
-crimerates['auckland'] = [];
-crimerates.wellington.push(wellingtonCrime);
-crimerates.auckland.push(aucklandCrime);
+crimerates['Wellington'] = [];
+crimerates['Auckland City'] = [];
+crimerates.Wellington.push(wellingtonCrime);
+crimerates.Auckland.push(aucklandCrime);
 
 //Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
@@ -66,9 +66,11 @@ var findSuburb = function(suburb_id, cb){
 		average: null,
 		crimerate: null,
 		region: null,
+		region_name: "",
 		distance: ""
 	}
 	var suburbs = JSON.parse(fs.readFileSync("data/suburbs.json", 'utf8'));
+	var regions = JSON.parse(fs.readFileSync("data/regions.json", 'utf8'));
 	var suburbAverages = JSON.parse(fs.readFileSync("data/averages.json", 'utf8'));
 	suburbs.forEach(obj => {
 		if(obj.suburb_id == suburb_id || obj.name == suburb_id){
@@ -82,7 +84,13 @@ var findSuburb = function(suburb_id, cb){
 			suburb.average = Math.round(obj.average * 100) / 100;
 		}
 	});
-	suburb.crimerate = crimerates['wellington'];
+	regions.forEach(obj => {
+		if(obj.region_id == suburb.region){
+			suburb.region_name = obj.name;
+		}
+	});
+	console.log(suburb.region_name);
+	suburb.crimerate = crimerates[suburb.region_name];
 	var distance = getSuburbs(suburb.name, "wellington", (b) => {suburb.distance = b; cb(suburb);});
 };
 
