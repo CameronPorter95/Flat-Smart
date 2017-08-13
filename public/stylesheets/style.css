@@ -3,11 +3,13 @@ body {
   padding-bottom: 2rem;
   position: relative;
   font-family: 'Inconsolata', monospace;
-  background-color:  #24A2F0;
+  background-color:  #2365c2;
   color: white;
 }
 
 .background {
+  height: 100%;
+  width:100%;
   position: absolute;
   top:0;
   left:0;
@@ -17,7 +19,7 @@ body {
 .overlayer {
   height: 100%;
   width:100%;
-  background-color:  #24A2F0;
+  background-color:  #2365c2;
   position: absolute;
   top:0;
   left:0;
