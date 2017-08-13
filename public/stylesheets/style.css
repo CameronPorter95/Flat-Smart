@@ -2,10 +2,25 @@ body {
   padding-top: 2rem;
   padding-bottom: 2rem;
   background-image: url("../background.jpg");
-  background-color: #2BA1E8;
   background-repeat:no-repeat;
   background-size:contain;
   background-position:center;
+  position: relative;
+}
+
+.overlayer {
+  height: 100%;
+  width:100%;
+  background-color:  #2BA1E8;
+  position: absolute;
+  top:0;
+  left:0;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.container {
+  z-index: 1;
 }
 
 h1 {
@@ -17,14 +32,22 @@ h2 {
     font-size: 300%;
 }
 
+.icon {
+  margin: 0 auto;
+  height: 200px;
+  width: 200px;
+  text-align: center;
+}
+
 .title-block {
   margin: auto;
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-size: 400%;
+  color: white;
   text-align: center;
   width: 60%;
-  border-bottom: .5rem solid black;
+  border-bottom: .5rem solid white;
 }
 
 .search-block {

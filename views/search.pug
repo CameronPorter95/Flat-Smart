@@ -1,8 +1,12 @@
 extends layout
 
 block content
+	.overlayer
 	.container
-			h1.title-block flat smart
+			.icon
+				img(src="../search.png" height="150" width="150" align="middle")
+			.row
+				h1.title-block flat smart
 			.row.search-block
 				select#region
 					option(value='0') -- Select Region --
