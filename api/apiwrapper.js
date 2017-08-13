@@ -5,12 +5,16 @@ var request = require('request');
 var Suburbs = [];
 var regions = [];
 
+var suburb_averages = [];
+var average_out = [];
+
 const trademeKey = {
-  consumerKey: "E434B9CF4549C3F016FC9FA13E024A04",
-  consumerSecret: "82822352A8CF174E123A12F00466116C"
+  consumerKey: "E72416F6785B94AB9AD082A6413C7675",
+  consumerSecret: "C563D8DB3D568741832FF31070DF6A52"
 };
 
-const trademeApiUrl = 'https://api.tmsandbox.co.nz/v1/Localities.json';
+const trademeApiUrl = 'https://api.trademe.co.nz/v1/Localities.json';
+const trademeListingsUrl = 'https://api.trademe.co.nz/v1/Search/Property/Rental.json?page=1';
 
 var options = {
     url: trademeApiUrl,
@@ -19,7 +23,13 @@ var options = {
       'Authorization' : `OAuth oauth_consumer_key="${trademeKey.consumerKey}", oauth_signature_method="PLAINTEXT", oauth_signature="${trademeKey.consumerSecret}&"`
     }
   };
-
+  var optionsListings = {
+      url: trademeListingsUrl,
+      method: 'GET',
+      headers: {
+        'Authorization' : `OAuth oauth_consumer_key="${trademeKey.consumerKey}", oauth_signature_method="PLAINTEXT", oauth_signature="${trademeKey.consumerSecret}&"`
+      }
+    };
 
 
 var getSuburbs = function() {
@@ -78,7 +88,7 @@ var getRegions = function() {
                   }
                   console.log("The file was saved!");
               });
-              console.log(regions)
+              console.log(regions);
         } else if (error) {
             console.error(error);
         } else {
@@ -88,11 +98,77 @@ var getRegions = function() {
     });
 };
 
+var getListings = function(){
+  var promiseArray = [];
+  for(var page = 1; page <= 100; page++){
+      promiseArray.push(new Promise((resolve,reject) => {
+        const trademeListingsUrl = 'https://api.trademe.co.nz/v1/Search/Property/Rental.json?page=' + page;
+        request(optionsListings, (error, response, body) => {
+          if (!error && response.statusCode == 200) {
+              var data = JSON.parse(body);
+              data.List.forEach(listing => {
+                var listingData = {
+                  listing_id: listing.ListingId,
+                  suburb_id: parseInt(listing.SuburbId),
+                  price: parseInt(listing.PriceDisplay.replace(/,/g , "").substring(1,10))
+                }
+                if(!suburb_averages[listingData.suburb_id]){
+                  suburb_averages[listingData.suburb_id] = {
+                    suburb_id: listingData.suburb_id,
+                    priceSum: parseInt(listingData.price),
+                    count: 1
+                  }
+                }
+                else{
+                  suburb_averages[listingData.suburb_id] = {
+                    suburb_id: suburb_averages[listingData.suburb_id].suburb_id,
+                    priceSum: parseInt(suburb_averages[listingData.suburb_id].priceSum) + parseInt(listingData.price),
+                    count: suburb_averages[listingData.suburb_id].count + 1
+                  }
+                }
+                console.log(listingData);
+              });
+              resolve();
+          } else if (error) {
+              console.error(error);
+              reject();
+          } else {
+              reject();
+              return null;
+          }
+      });
+    }));
+  }
+  Promise.all(promiseArray)
+    .then(() => {
+      suburb_averages.forEach(obj => {
+        if(obj){
+          var average = {
+            suburb_id: obj.suburb_id,
+            average: obj.priceSum / obj.count
+          }
+          average_out.push(average);
+          console.log(suburb_averages);
+          console.log(average);
+        }
+      });
+      console.log(average_out);
+      var fs = require('fs');
+        fs.writeFile("averages.json", JSON.stringify(average_out), function(err) {
+            if(err) {
+                return console.log(err);
+            }
+            console.log("The file was saved!");
+        });
+    });
+}
+
 app.get('/', function (req, res) {
-   getSuburbs();
-   getRegions();
-  res.send(Suburbs);
-  res.send(regions);
+   //getSuburbs();
+   //getRegions();
+   getListings().then(()=> {});
+  //res.send(Suburbs);
+  //res.send(regions);
 });
 
 app.listen(3000, function () {
