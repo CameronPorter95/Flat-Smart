@@ -68,6 +68,7 @@ var findSuburb = function(suburb_id, cb){
 		name: null,
 		average: null,
 		crimerate: null,
+		crimerate_summary: null,
 		region: null,
 		region_name: "",
 		distance: ""
@@ -94,6 +95,15 @@ var findSuburb = function(suburb_id, cb){
 	});
 	console.log(suburb.region_name);
 	suburb.crimerate = crimerates[suburb.region_name];
+	if(suburb.crimerate > 0.08){
+		suburb.crimerate_summary = "Bad";
+	}
+	else if(suburb.crimerate < 0.04){
+		suburb.crimerate_summary = "Good";
+	}
+	else{
+		suburb.crimerate_summary = "Fair";
+	}
 	var distance = getSuburbs(suburb.name, suburb.region_name, (b) => {suburb.distance = b; cb(suburb);});
 };
 
