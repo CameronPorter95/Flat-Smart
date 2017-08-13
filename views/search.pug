@@ -2,16 +2,18 @@ extends layout
 
 block content
 	.container
-			h1 Search
+			h1.title-block flat smart
+			.row.search-block
 				select#region
 					option(value='0') -- Select Region --
 					each region in regionsArray
 						option(value=region.region_id) #{region.name}
-
+			.row.search-block
 				select#suburb
 					option(value='0') -- Select suburb --
 					each suburb in suburbsArray
 						option(value=suburb.suburb_id  region=suburb.region_id) #{suburb.name}
+			.row.search-block
 				button#search Search Now
 				script.
 					var button = document.getElementById("search");
