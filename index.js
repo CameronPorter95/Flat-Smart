@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var fs = require('fs');
+var request = require('request');
 
 //Set the template engine
 app.set('view engine', 'pug');
@@ -36,12 +37,36 @@ else {
  });
 };
 
-var findSuburb = function(suburb_id){
+//IN ORDER TO GET DISTANCES FROM GOOGLE MAPS API
+var getSuburbs = function(from, to, cb) {
+		var options = {
+	    url: 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=' + from + ',' + to + ',NZ&destinations=' + to + '&key=AIzaSyCClGYz48FWxlO2aZvIYvXXuFmWv7QK9cs',
+	    method: 'GET'
+	  };
+		request(options, (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+            var data = JSON.parse(body);
+            var distance = data.rows[0].elements[0].distance.text;
+						var length = data.rows[0].elements[0].duration.text;
+						console.log("getSuburbs:" + distance);
+						cb(distance);
+        } else if (error) {
+            console.error(error);
+        } else {
+            console.log(body);
+            return null;
+        }
+    });
+};
+
+var findSuburb = function(suburb_id, cb){
 	var suburb = {
 		suburb_id: null,
 		name: null,
 		average: null,
-		crimerate: null
+		crimerate: null,
+		region: null,
+		distance: ""
 	}
 	var suburbs = JSON.parse(fs.readFileSync("data/suburbs.json", 'utf8'));
 	var suburbAverages = JSON.parse(fs.readFileSync("data/averages.json", 'utf8'));
@@ -49,6 +74,7 @@ var findSuburb = function(suburb_id){
 		if(obj.suburb_id == suburb_id || obj.name == suburb_id){
 			suburb.suburb_id = obj.suburb_id;
 			suburb.name = obj.name;
+			suburb.region = obj.region_id;
 		}
 	});
 	suburbAverages.forEach(obj => {
@@ -56,9 +82,10 @@ var findSuburb = function(suburb_id){
 			suburb.average = Math.round(obj.average * 100) / 100;
 		}
 	});
-	suburb.crimerate = crimerates.wellington[0]
-	return suburb;
+	suburb.crimerate = crimerates.wellington[0];
+	var distance = getSuburbs(suburb.name, "wellington", (b) => {suburb.distance = b; cb(suburb);});
 };
+
 
 app.get('/', function (req, res) {
   //res.render(<pug file>, parameters: {title: <page title>, resultsName: <Title for results table>});
@@ -72,12 +99,12 @@ app.get('/results/:suburb_id', function (req, res) {
 	if (!req.params.suburb_id) return res.json("suburb_id not supplied");
 	var id = req.params.suburb_id;
 
-	var suburbToPass = findSuburb(id);
+	findSuburb(id, suburb => {res.render('results', {title: 'Results for '+ id,
+		suburb: suburb
+  });});
 	//get the details of the relevant suburb
 	//searchedSuburbArray = [];
 
 	//res.render(<pug file>, parameters: {});
-	res.render('results', {title: 'Results for '+ id,
-		suburb: suburbToPass
-  });
+
 });
